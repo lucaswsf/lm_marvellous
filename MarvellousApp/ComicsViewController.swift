@@ -23,7 +23,7 @@ class ComicsViewController: UIViewController {
         comicTV.estimatedRowHeight = 200.0
         comicTV.rowHeight = UITableViewAutomaticDimension
         
-        displayComics()
+        displayComics(0)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -40,12 +40,12 @@ class ComicsViewController: UIViewController {
         
     }
     
-    func displayComics() {
+    func displayComics(offset: Int) {
         //declencher un WS
         //START SPINNER
         NSNotificationCenter.defaultCenter().postNotificationName("spinner_notif", object: nil)
         
-        Comic.getRemoteComics(comicsOffset) { (response) in
+        Comic.getRemoteComics(offset) { (response) in
             
             switch response.result {
             case .Success:
@@ -116,7 +116,7 @@ extension ComicsViewController : UITableViewDelegate,UITableViewDataSource {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         if indexPath.row == comicsArray.count {
-            displayComics()
+            displayComics(comicsOffset)
         }
     }
     
